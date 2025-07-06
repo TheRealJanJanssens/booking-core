@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \TheRealJanJanssens\Pakka\Pakka
  */
-class BookingCoreServiceProvider extends Facade
+class BookingCoreFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {

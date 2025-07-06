@@ -11,27 +11,38 @@ class BookingCoreServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        //Autoload migrations
         $this->loadMigrationsFrom([
             __DIR__.'/../database/migrations' => database_path('migrations'),
         ]);
 
-        // New Method since Laravel 11.x
-        // $this->publishesMigrations([
-        //     __DIR__.'/../database/migrations' => database_path('migrations'),
-        // ]);
+        // Publish migrations and seeders
+        $this->publishesMigrations([
+            __DIR__.'/../database/migrations' => database_path('migrations'),
+        ], 'booking-core');
+
+        //Seeder
+        $this->publishes([
+            __DIR__.'/../database/seeders/DatabaseSeeder.php' => base_path('database/seeders/DatabaseSeeder.php'),
+        ], 'booking-core-seeder');
+
+        //Config
+        $this->publishes([
+            __DIR__.'/../config/mypackage.php' => config_path('mypackage.php'),
+        ], 'booking-core-config');
 
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
     }
 
-    public static function allMigrations()
-    {
-        $path = __DIR__ . '/../database/migrations';
-        $files = array_values(array_diff(scandir($path), ['.', '..','.DS_Store']));
+    // public static function allMigrations()
+    // {
+    //     $path = __DIR__ . '/../database/migrations';
+    //     $files = array_values(array_diff(scandir($path), ['.', '..','.DS_Store']));
 
-        for ($i = 0; $i < count($files); ++$i) {
-            $result[$i] = str_replace('.php.stub', '', $files[$i]);
-        }
+    //     for ($i = 0; $i < count($files); ++$i) {
+    //         $result[$i] = str_replace('.php.stub', '', $files[$i]);
+    //     }
 
-        return $result;
-    }
+    //     return $result;
+    // }
 }
