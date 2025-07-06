@@ -28,7 +28,7 @@ class BookingCoreServiceProvider extends ServiceProvider
 
         //Config
         $this->publishes([
-            __DIR__.'/../config/mypackage.php' => config_path('mypackage.php'),
+            __DIR__.'/../config/booking-core.php' => config_path('booking-core.php'),
         ], 'booking-core-config');
 
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
