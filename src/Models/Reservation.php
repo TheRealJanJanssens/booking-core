@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use TheRealJanJanssens\BookingCore\Support\IdentifierResolver;
 use TheRealJanJanssens\BookingCore\Traits\Models\HasResolver;
 
 class Reservation extends Model
@@ -42,6 +43,6 @@ class Reservation extends Model
 
     public function user()
     {
-        return $this->belongsTo($this->resolve('user'));
+        return $this->belongsTo($this->resolve('user'), IdentifierResolver::foreignKeyFor('user'));
     }
 }

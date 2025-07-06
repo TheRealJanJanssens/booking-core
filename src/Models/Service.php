@@ -9,6 +9,7 @@ use TheRealJanJanssens\BookingCore\Traits\Models\HasResolver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
+use TheRealJanJanssens\BookingCore\Database\Factories\ServiceFactory;
 
 class Service extends Model
 {
@@ -28,11 +29,6 @@ class Service extends Model
         'price'
     ];
 
-    // public function tenant(): BelongsTo
-    // {
-    //     return $this->BelongsTo(Tenant::class, 'tenant_uuid');
-    // }
-
     public function providers(): BelongsToMany
     {
         return $this->belongsToMany($this->resolve('provider'), 'provider_services', 'service_uuid', 'provider_uuid')->withTimestamps();
@@ -41,6 +37,11 @@ class Service extends Model
     public function reservations()
     {
         return $this->hasMany($this->resolve('reservation'));
+    }
+
+    protected static function newFactory()
+    {
+        return ServiceFactory::new();
     }
 
     /*

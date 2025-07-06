@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
+use TheRealJanJanssens\BookingCore\Database\Factories\ProviderFactory;
+use TheRealJanJanssens\BookingCore\Support\IdentifierResolver;
 
 class Provider extends Model
 {
@@ -24,7 +26,6 @@ class Provider extends Model
      */
     protected $fillable = [
         'name',
-        'user_uuid',
         'capacity',
         'type',
         'description'
@@ -32,13 +33,8 @@ class Provider extends Model
 
     public function user(): BelongsTo
     {
-        return $this->BelongsTo($this->resolve('user'), 'user_uuid', 'uuid');
+        return $this->belongsTo($this->resolve('user'), IdentifierResolver::foreignKeyFor('user'));
     }
-
-    // public function tenant(): BelongsTo
-    // {
-    //     return $this->BelongsTo(Tenant::class, 'tenant_uuid');
-    // }
 
     public function services(): BelongsToMany
     {
@@ -48,5 +44,10 @@ class Provider extends Model
     public function reservations()
     {
         return $this->hasMany($this->resolve('reservation'));
+    }
+
+    protected static function newFactory()
+    {
+        return ProviderFactory::new();
     }
 }
