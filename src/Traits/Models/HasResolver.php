@@ -2,7 +2,7 @@
 
 namespace TheRealJanJanssens\BookingCore\Traits\Models;
 
-class HasResolver
+trait HasResolver
 {
     public function resolve(string $modelKey): string
     {

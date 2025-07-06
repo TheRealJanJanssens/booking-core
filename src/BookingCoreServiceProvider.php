@@ -12,14 +12,12 @@ class BookingCoreServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //Autoload migrations
-        $this->loadMigrationsFrom([
-            __DIR__.'/../database/migrations' => database_path('migrations'),
-        ]);
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         // Publish migrations and seeders
         $this->publishesMigrations([
             __DIR__.'/../database/migrations' => database_path('migrations'),
-        ], 'booking-core');
+        ], 'booking-core-migrations');
 
         //Seeder
         $this->publishes([

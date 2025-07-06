@@ -27,7 +27,8 @@
     },
     "autoload": {
         "psr-4": {
-            "TheRealJanJanssens\\BookingCore\\": "src"
+            "TheRealJanJanssens\\BookingCore\\": "src",
+            "TheRealJanJanssens\\BookingCore\\Database\\Factories\\": "database/factories/"
         }
     },
     "extra": {

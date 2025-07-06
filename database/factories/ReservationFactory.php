@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace TheRealJanJanssens\BookingCore\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use TheRealJanJanssens\BookingCore\Models\Reservation;

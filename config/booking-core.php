@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'user_identifier' => 'id',
+
     'models' => [
         'user'                => \App\Models\User::class,
         'provider'            => \TheRealJanJanssens\BookingCore\Models\Provider::class,

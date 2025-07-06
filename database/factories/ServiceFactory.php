@@ -1,21 +1,51 @@
 <?php
 
-namespace Database\Factories;
+namespace TheRealJanJanssens\BookingCore\Database\Factories;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use TheRealJanJanssens\BookingCore\Models\Provider;
 use TheRealJanJanssens\BookingCore\Models\Service;
 
 class ServiceFactory extends Factory
 {
     protected $model = Service::class;
 
-    public function definition()
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
     {
-        return [
-            'name' => $this->faker->words(3, true),
-            'description' => $this->faker->text,
-            'duration' => $this->faker->numberBetween(30, 180),
-            'price' => $this->faker->randomFloat(2, 10, 500),
+        $times = [
+            '00:30:00',
+            '01:00:00',
+            '01:30:00',
+            '02:00:00',
+            '02:30:00'
         ];
+
+        return [
+            'name' => fake()->name(),
+            'description' => fake()->text(),
+            'price' => rand(0,50),
+            'duration' => $times[rand(0,4)]
+        ];
+    }
+
+    public function withProviders(Collection|Provider $providers)
+    {
+        if($providers instanceof Collection){
+            $providerIds = $providers->map(function($item){
+                return $item->uuid;
+            });
+        }else{
+            $providerIds = [$providers->uuid];
+        }
+
+        return $this->afterCreating(function (Service $service) use ($providerIds) {
+            $service->providers()->attach($providerIds);
+        });
     }
 }
