@@ -2,19 +2,15 @@
 
 namespace TheRealJanJanssens\BookingCore\Models;
 
-use TheRealJanJanssens\BookingCore\Traits\Models\CreateUuid;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use TheRealJanJanssens\BookingCore\Traits\Models\HasResolver;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 
-class Service extends Model
+class ProviderSchedule extends Model
 {
-    use HasFactory, Notifiable, HasUuids, CreateUuid, HasResolver;
-
-    protected $primaryKey = 'uuid';
+    use HasFactory, Notifiable, HasUuids, HasResolver;
 
     /**
      * The attributes that are mass assignable.
@@ -22,26 +18,17 @@ class Service extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'description',
-        'duration',
-        'price'
+        'provider_id',
+        'mon',
+        'tue',
+        'wed',
+        'thu',
+        'fri',
+        'sat',
+        'sun',
+        'start_at',
+        'end_at',
     ];
-
-    // public function tenant(): BelongsTo
-    // {
-    //     return $this->BelongsTo(Tenant::class, 'tenant_uuid');
-    // }
-
-    public function providers(): BelongsToMany
-    {
-        return $this->belongsToMany($this->resolve('provider'), 'provider_services', 'service_uuid', 'provider_uuid')->withTimestamps();
-    }
-
-    public function reservations()
-    {
-        return $this->hasMany($this->resolve('reservation'));
-    }
 
     /*
     |------------------------------------------------------------------------------------
@@ -49,10 +36,12 @@ class Service extends Model
     | TODO: move this
     |------------------------------------------------------------------------------------
     */
+
     public static function rules($update = false, $id = null)
     {
         $commun = [
-            'name' => "required",
+            'start_at' => "required",
+            'end_at' => "required",
         ];
 
         if ($update) {
@@ -60,7 +49,8 @@ class Service extends Model
         }
 
         return array_merge($commun, [
-            'name' => "required",
+            'start_at' => "required",
+            'end_at' => "required",
         ]);
     }
 }

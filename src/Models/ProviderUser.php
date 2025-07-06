@@ -16,11 +16,11 @@ class ProviderUser extends Pivot
 
     public function user()
     {
-        return $this->belongsTo(config('auth.defaults.model'));
+        return $this->belongsTo($this->resolve('user'));
     }
 
     public function provider()
     {
-        return $this->belongsTo(Provider::class);
+        return $this->belongsTo($this->resolve('provider'));
     }
 }

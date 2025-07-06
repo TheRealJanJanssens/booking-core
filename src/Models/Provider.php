@@ -2,39 +2,51 @@
 
 namespace TheRealJanJanssens\BookingCore\Models;
 
+use TheRealJanJanssens\BookingCore\Traits\Models\CreateUuid;
+use TheRealJanJanssens\BookingCore\Traits\Models\HasResolver;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Notifications\Notifiable;
 
 class Provider extends Model
 {
-    use HasUuids, SoftDeletes;
+    use HasFactory, Notifiable, HasUuids, CreateUuid, HasResolver;
 
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $primaryKey = 'uuid';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
         'name',
+        'user_uuid',
+        'capacity',
         'type',
         'description'
     ];
 
-    public function services()
+    public function user(): BelongsTo
     {
-        return $this->belongsToMany(Service::class)
-            ->withTimestamps()
-            ->using(ServiceProvider::class);
+        return $this->BelongsTo($this->resolve('user'), 'user_uuid', 'uuid');
+    }
+
+    // public function tenant(): BelongsTo
+    // {
+    //     return $this->BelongsTo(Tenant::class, 'tenant_uuid');
+    // }
+
+    public function services(): BelongsToMany
+    {
+        return $this->belongsToMany($this->resolve('service'), 'provider_services', 'provider_uuid', 'service_uuid')->withTimestamps();
     }
 
     public function reservations()
     {
-        return $this->hasMany(Reservation::class);
-    }
-
-    public function user()
-    {
-        return $this->hasMany(config('auth.defaults.model'));
+        return $this->hasMany($this->resolve('reservation'));
     }
 }

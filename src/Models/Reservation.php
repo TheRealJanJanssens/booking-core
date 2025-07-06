@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Cache;
+use TheRealJanJanssens\BookingCore\Traits\Models\HasResolver;
 
 class Reservation extends Model
 {
-    use HasUuids, SoftDeletes;
+    use HasUuids, SoftDeletes, HasResolver;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -32,16 +32,16 @@ class Reservation extends Model
 
     public function service(): BelongsTo
     {
-        return $this->belongsTo(Service::class);
+        return $this->belongsTo($this->resolve('service'));
     }
 
     public function provider(): BelongsTo
     {
-        return $this->belongsTo(Provider::class);
+        return $this->belongsTo($this->resolve('provider'));
     }
 
     public function user()
     {
-        return $this->belongsTo(config('auth.defaults.model'));
+        return $this->belongsTo($this->resolve('user'));
     }
 }
