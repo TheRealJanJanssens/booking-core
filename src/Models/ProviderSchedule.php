@@ -30,6 +30,11 @@ class ProviderSchedule extends Model
         'end_at',
     ];
 
+    public function provider()
+    {
+        return $this->belongsTo($this->resolve('provider'));
+    }
+
     /*
     |------------------------------------------------------------------------------------
     | Validations
