@@ -30,7 +30,8 @@ class ServiceFactory extends Factory
             'name' => fake()->name(),
             'description' => fake()->text(),
             'price' => rand(0,50),
-            'duration' => $times[rand(0,4)]
+            'duration' => $times[rand(0,4)],
+            //'metadata' => json_encode([]) //TODO: Populate this?
         ];
     }
 

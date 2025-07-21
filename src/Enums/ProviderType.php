@@ -8,6 +8,7 @@ enum ProviderType: string
 {
     use HasOptions;
 
-    case Person = 'person';
+    case Person   = 'person';
     case Location = 'location';
+    case Vehicle  = 'vehicle';
 }

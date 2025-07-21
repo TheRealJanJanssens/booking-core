@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use TheRealJanJanssens\BookingCore\Traits\HasResolver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use TheRealJanJanssens\BookingCore\Database\Factories\ProviderScheduleFactory;
+use TheRealJanJanssens\BookingCore\Database\Factories\ProviderScheduleExceptionFactory;
+use TheRealJanJanssens\BookingCore\Enums\ProviderScheduleType;
 
-class ProviderSchedule extends Model
+class ProviderScheduleException extends Model
 {
     use HasFactory, Notifiable, HasUuids, HasResolver;
 
@@ -21,20 +22,26 @@ class ProviderSchedule extends Model
      * @var array
      */
     protected $fillable = [
-        'provider_schedule_group_uuid',
-        'day_of_week',
+        'provider_uuid',
         'start_at',
         'end_at',
+        'type',
     ];
 
-    public function group()
+    protected $casts = [
+        'type' => ProviderScheduleType::class,
+        'start_at' => 'datetime',
+        'end_at' => 'datetime',
+    ];
+
+    public function provider()
     {
-        return $this->belongsTo($this->resolve('provider_schedule_group'));
+        return $this->belongsTo($this->resolve('provider'));
     }
 
     protected static function newFactory()
     {
-        return ProviderScheduleFactory::new();
+        return ProviderScheduleExceptionFactory::new();
     }
 
     /*

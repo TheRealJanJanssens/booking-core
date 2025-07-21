@@ -2,16 +2,18 @@
 
 namespace TheRealJanJanssens\BookingCore\Models;
 
+use Carbon\Carbon;
 use TheRealJanJanssens\BookingCore\Traits\Models\CreateUuid;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use TheRealJanJanssens\BookingCore\Traits\Models\HasResolver;
+use TheRealJanJanssens\BookingCore\Traits\HasResolver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
+use TheRealJanJanssens\BookingCore\Contracts\Models\ServiceContract;
 use TheRealJanJanssens\BookingCore\Database\Factories\ServiceFactory;
 
-class Service extends Model
+class Service extends Model implements ServiceContract
 {
     use HasFactory, Notifiable, HasUuids, CreateUuid, HasResolver;
 
@@ -26,17 +28,29 @@ class Service extends Model
         'name',
         'description',
         'duration',
-        'price'
+        'price',
+        'metadata'
     ];
+
+    protected $appends = ['duration_in_minutes'];
+
+    // Accessor
+    public function getDurationInMinutesAttribute(): int
+    {
+        $time = $this->attributes['duration'] ?? '00:00:00';
+
+        $carbon = Carbon::parse($time);
+        return $carbon->hour * 60 + $carbon->minute;
+    }
 
     public function providers(): BelongsToMany
     {
-        return $this->belongsToMany($this->resolve('provider'), 'provider_services', 'service_uuid', 'provider_uuid')->withTimestamps();
+        return $this->belongsToMany($this->resolve('provider'), 'service_assignments', 'service_uuid', 'provider_uuid')->withTimestamps();
     }
 
-    public function reservations()
+    public function bookings()
     {
-        return $this->hasMany($this->resolve('reservation'));
+        return $this->hasMany($this->resolve('booking'));
     }
 
     protected static function newFactory()

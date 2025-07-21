@@ -4,7 +4,7 @@ namespace TheRealJanJanssens\BookingCore\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use TheRealJanJanssens\BookingCore\Traits\Models\HasResolver;
+use TheRealJanJanssens\BookingCore\Traits\HasResolver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
