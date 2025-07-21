@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRealJanJanssens\BookingCore;
+namespace TheRealJanJanssens\BookingCore\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -12,24 +12,29 @@ class BookingCoreServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //Autoload migrations
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 
         // Publish migrations and seeders
         $this->publishesMigrations([
-            __DIR__.'/../database/migrations' => database_path('migrations'),
+            __DIR__.'/../../database/migrations' => database_path('migrations'),
         ], 'booking-core-migrations');
 
         //Seeder
         $this->publishes([
-            __DIR__.'/../database/seeders/DatabaseSeeder.php' => base_path('database/seeders/DatabaseSeeder.php'),
+            __DIR__.'/../../database/seeders/DatabaseSeeder.php' => base_path('database/seeders/DatabaseSeeder.php'),
         ], 'booking-core-seeder');
 
         //Config
         $this->publishes([
-            __DIR__.'/../config/booking-core.php' => config_path('booking-core.php'),
+            __DIR__.'/../../config/booking-core.php' => config_path('booking-core.php'),
         ], 'booking-core-config');
 
-        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+        $this->loadRoutesFrom(__DIR__.'/../../routes/api.php');
+    }
+
+    public function register(): void
+    {
+        $this->app->register(EventServiceProvider::class);
     }
 
     // public static function allMigrations()

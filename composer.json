@@ -27,17 +27,17 @@
     },
     "autoload": {
         "psr-4": {
-            "TheRealJanJanssens\\BookingCore\\": "src",
+            "TheRealJanJanssens\\BookingCore\\": "src/",
             "TheRealJanJanssens\\BookingCore\\Database\\Factories\\": "database/factories/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "TheRealJanJanssens\\BookingCore\\BookingCoreServiceProvider"
+                "TheRealJanJanssens\\BookingCore\\Providers\\BookingCoreServiceProvider"
             ],
             "aliases": {
-                "BookingCore": "TheRealJanJanssens\\BookingCore\\BookingCoreFacade"
+                "BookingCore": "TheRealJanJanssens\\BookingCore\\Facades\\BookingCoreFacade"
             }
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace TheRealJanJanssens\BookingCore;
+namespace TheRealJanJanssens\BookingCore\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
