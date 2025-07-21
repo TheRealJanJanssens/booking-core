@@ -1,14 +1,43 @@
 <?php
 
 return [
-    'user_identifier' => 'id',
+    'api' => [
+        'prefix' => 'api/v1',
+        'middleware' => ['api']
+    ],
 
     'models' => [
-        'user'                => \App\Models\User::class,
-        'provider'            => \TheRealJanJanssens\BookingCore\Models\Provider::class,
-        'provider_schedule'   => \TheRealJanJanssens\BookingCore\Models\ProviderSchedule::class,
-        'reservation'         => \TheRealJanJanssens\BookingCore\Models\Reservation::class,
-        'service'             => \TheRealJanJanssens\BookingCore\Models\Service::class,
-        'service_assignments' => \TheRealJanJanssens\BookingCore\Models\ServiceAssignments::class,
+        'user' => [
+            'identifier' => 'id',
+            'class' => \App\Models\User::class,
+        ],
+        'provider' => [
+            'identifier' => 'uuid',
+            'class' => \TheRealJanJanssens\BookingCore\Models\Provider::class,
+        ],
+        'provider_schedule_group' => [
+            'identifier' => 'uuid',
+            'class' => \TheRealJanJanssens\BookingCore\Models\ProviderScheduleGroup::class,
+        ],
+        'provider_schedule' => [
+            'identifier' => 'uuid',
+            'class' => \TheRealJanJanssens\BookingCore\Models\ProviderSchedule::class,
+        ],
+        'provider_schedule_exception' => [
+            'identifier' => 'uuid',
+            'class' => \TheRealJanJanssens\BookingCore\Models\ProviderScheduleException::class,
+        ],
+        'booking' => [
+            'identifier' => 'uuid',
+            'class' => \TheRealJanJanssens\BookingCore\Models\Booking::class,
+        ],
+        'service' => [
+            'identifier' => 'uuid',
+            'class' => \TheRealJanJanssens\BookingCore\Models\Service::class,
+        ],
+        'service_assignments' => [
+            'identifier' => 'uuid',
+            'class' => \TheRealJanJanssens\BookingCore\Models\ServiceAssignments::class,
+        ],
     ],
 ];

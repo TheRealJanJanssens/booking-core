@@ -6,7 +6,7 @@ class IdentifierResolver
 {
     public static function identifier(string $model): string
     {
-        return config('booking-core.'.$model.'_identifier', 'id');
+        return config('booking-core.models.'.$model.'.identifier', 'uuid');
     }
 
     public static function foreignKeyFor(string $model): string
