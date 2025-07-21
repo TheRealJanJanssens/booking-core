@@ -11,14 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('provider_schedule_groups', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->unsignedInteger('price')->nullable();
-            $table->time('duration');
-            $table->json('metadata')->nullable();
+            $table->foreignUuid('provider_uuid')->references('uuid')->on('providers');
+            $table->string('name')->nullable();
+            $table->date('start_at');
+            $table->date('end_at');
             $table->timestamps();
+
+            $table->index(['provider_uuid', 'start_at', 'end_at']);
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('provider_schedule_groups');
     }
 };

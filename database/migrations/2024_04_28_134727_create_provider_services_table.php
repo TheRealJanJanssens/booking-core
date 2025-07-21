@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('provider_services', function (Blueprint $table) {
+        Schema::create('service_assignments', function (Blueprint $table) {
             $table->id();
-            $table->uuid('service_uuid');
-            $table->uuid('provider_uuid');
+            $table->foreignUuid('service_uuid')->references('uuid')->on('services');
+            $table->foreignUuid('provider_uuid')->references('uuid')->on('providers');
             $table->timestamps();
         });
     }

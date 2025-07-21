@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('provider_schedules', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
-            $table->uuid('provider_uuid');
-            $table->tinyInteger('day_of_week')->default(0);
+            $table->foreignUuid('provider_schedule_group_uuid')->references('uuid')->on('provider_schedule_groups');
+            $table->tinyInteger('day_of_week');
             $table->time('start_at');
             $table->time('end_at');
             $table->timestamps();
+
+            $table->index(['provider_schedule_group_uuid', 'day_of_week'], 'provider_schedule_group_dates');
         });
     }
 

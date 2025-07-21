@@ -14,10 +14,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('providers', function (Blueprint $table) {
-            $column = IdentifierResolver::foreignKeyFor('user');
-            $type = IdentifierResolver::usesUuid('user') ? 'uuid' : 'id';
-
-            $table->{$type}($column)->nullable();
+            $forgeinColumn = IdentifierResolver::foreignKeyFor('user');
+            $identifier = IdentifierResolver::usesUuid('user') ? 'uuid' : 'id';
+            $foreignMethod = 'foreign'.ucfirst($identifier);
+var_dump($forgeinColumn);
+            $table->{$identifier}($forgeinColumn)->nullable();
+            $table->foreign($forgeinColumn)->references($identifier)->on('users')->nullOnDelete();
         });
     }
 
