@@ -2,8 +2,14 @@
 
 return [
     'api' => [
+        // Shared prefix for all package API routes
         'prefix' => 'api/v1',
-        'middleware' => ['api']
+
+        // Middleware for non-auth routes
+        'middleware' => ['api'],
+
+        // Middleware for auth-protected routes
+        'auth_middleware' => ['api', 'auth:sanctum'],
     ],
 
     'models' => [

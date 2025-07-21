@@ -4,6 +4,7 @@ namespace TheRealJanJanssens\BookingCore\Services;
 
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use TheRealJanJanssens\BookingCore\Contracts\Models\ProviderContract;
 use TheRealJanJanssens\BookingCore\Contracts\Models\ServiceContract;
@@ -36,6 +37,17 @@ class ProviderAvailabilityService
         }
 
         return $slots;
+    }
+
+    public function getFormattedAvailabilitySlots(ProviderContract $provider, ServiceContract $service, Carbon $startDate, Carbon $endDate): Collection {
+        $availability = $this->getAvailabilitySlots($provider, $service, $startDate, $endDate);
+
+        return collect($availability)->map(function ($slots, $date) {
+            return (object) [
+                'date' => $date,
+                'slots' => collect($slots),
+            ];
+        })->values();
     }
 
     protected function calculateDaySlots(ProviderContract $provider, ServiceContract $service, Carbon $date): array
